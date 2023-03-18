@@ -129,7 +129,7 @@ def im_plot(tensor):
 
 
 def predict(model,img,path = './', video_file_name=""):
-  fmap,logits = model(img.to('cuda'))
+  fmap,logits = model(img.to('cpu'))
   img = im_convert(img[:,-1,:,:,:], video_file_name)
   params = list(model.parameters())
   weight_softmax = model.linear1.weight.detach().cpu().numpy()
@@ -140,7 +140,7 @@ def predict(model,img,path = './', video_file_name=""):
   return [int(prediction.item()),confidence]
 
 def plot_heat_map(i, model, img, path = './', video_file_name=''):
-  fmap,logits = model(img.to('cuda'))
+  fmap,logits = model(img.to('cpu'))
   params = list(model.parameters())
   weight_softmax = model.linear1.weight.detach().cpu().numpy()
   logits = sm(logits)
